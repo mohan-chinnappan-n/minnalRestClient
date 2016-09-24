@@ -1,0 +1,55 @@
+<aura:component controller="RestRequestController">
+    
+    <aura:attribute name="resource" type="String" default="/services/data/" />
+    <aura:attribute name="method" type="String" default="GET"/>
+    <aura:attribute name="responseFormat" type="String" default="application/json"/>
+    <aura:attribute name="bodyContent" type="Object" />
+    <aura:attribute name="bodyContentType" type="String" default="application/json"/>
+    
+    
+    
+    <aura:attribute name="verbs"    type="String[]" default="['GET', 'POST' ]" />
+    
+    <aura:attribute name="response" type="String" default="application/json"/>
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.makeRequest}"/> 
+    
+    <aura:handler event="c:MinnalRestResponseEvent" action="{!c.getResponse}"/>
+    
+    
+    <div class="form-group">
+        
+        <label for="Resource">Resource:</label>
+        <ui:inputText aura:id="resource"   class="form-control"
+                      placeholder="Resource url" value="{!v.resource}"/>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-2">
+                 
+                <ui:inputSelect class="form-control" aura:id="methods" multiple="false" change="{!c.onMethodChange}">
+                    <aura:iteration items="{!v.verbs}" var="verb">
+                        <ui:inputSelectOption text="{!verb}" label="{!verb}"/>
+                        
+                    </aura:iteration>
+                    
+                </ui:inputSelect>
+                
+            </div>
+            
+            <div class="col-sm-4">
+                <button class="btn btn-primary" onclick="{!c.sendNewRequest}">Go</button>
+                
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        
+        <label for="Response">Response:</label>
+        <textarea readonly="readonly"  rows="10" cols="150" class="form-control">
+            {!v.response}
+        </textarea>
+    </div>
+    
+</aura:component>

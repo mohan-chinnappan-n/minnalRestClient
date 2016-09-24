@@ -1,0 +1,14 @@
+.THIS th {
+    font-weight:bold;
+    cursor: pointer;
+}
+.THIS span.meaning {
+    font-weight:bold;
+}
+
+.THIS .badge-primary {
+    background: steelblue !important;
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+}

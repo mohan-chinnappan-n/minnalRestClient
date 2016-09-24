@@ -1,0 +1,112 @@
+<aura:component >
+	<link href="/resource/bootstrap/" rel="stylesheet"/>
+    <link href="/resource/balloon/" rel="stylesheet"/>
+
+
+    <aura:attribute name="appName" type="String" default="Minnal - மின்னல்  " />
+    <aura:attribute name="appNameDescription" type="String" default="Beautiful Tamil Word for Lightning - மின்னல்!" />
+
+    
+    <aura:attribute name="bodyContent" type="Object" />
+    <aura:attribute name="bodyContentAll" type="Object" />
+
+    <aura:attribute name="searchOn" type="String" default="label" />
+    <aura:attribute name="searchOnType" type="String" default="string" />
+
+
+    <aura:attribute name="pageSize" type="Integer" default="15"/>
+    <aura:attribute name="currentPage" type="Integer" default="1"/>
+
+
+    <aura:handler event="c:SearchKeyChange" action="{!c.searchKeyChange}"/>
+
+    
+     <aura:handler event="c:MinnalRestResponseEvent" action="{!c.getContent}"/>
+   
+    <aura:handler event="c:PageSizeChange" action="{!c.pageSizeChange}"/>
+    <aura:handler event="c:CurrentPageChange" action="{!c.currentPageChange}"/>
+
+
+
+    
+
+
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand"> {!v.appName} - Lightning REST Client</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        
+
+         <c:MinnalRestRequest /> 
+
+        <div class="row">
+            <div class="col-sm-12">
+                <c:SearchBar />
+
+            </div>
+        </div>
+
+        <div>
+            <table class='table table-bordered table-striped table-hover'>
+                <thead>
+                    <tr>
+
+                        <th id='label'   data-dir='asc' data-type='string' onclick="{!c.sortColumn}">Label</th>
+                        <th id='url'     data-dir='asc' data-type='string' onclick="{!c.sortColumn}">URL</th>
+                        <th id='version' data-dir='asc' data-type='float'  onclick="{!c.sortColumn}">Version</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.bodyContent}" var="item">
+                        <tr>
+                            <td>
+                                <p>{!item.label}</p>
+
+                            </td>
+                            <td>
+                                <p>{!item.url}</p>
+
+                            </td>
+
+                            <td>
+                                <p>{!item.version}</p>
+
+                            </td>
+
+
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <span class='badge badge-primary'>Page Size</span>  <c:PageSize />
+            </div>
+            <div class="col-sm-2">  <span class='badge badge-primary'>Choose Page</span>
+                <c:Pager />
+            </div>
+            <div class="col-sm-2">
+                <span   data-balloon-length="large"
+                      data-balloon="{!v.appNameDescription}"
+                      data-balloon-pos="up"
+                      class="meaning">
+                    Name Minnal?
+                </span>
+            </div>
+        </div>
+
+
+        <div> <hr/></div>
+
+
+    </div>
+</aura:component>
