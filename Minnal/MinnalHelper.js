@@ -1,18 +1,18 @@
 ({
 
-  jsonSort: function(jsonObj, prop, type, direction, offset, limit) {
-    //console.log (jsonObj);
+  jsonSort: function(jsonArray, prop, type, direction, offset, limit) {
+    //console.log (jsonArray);
     //console.log (prop);
 
     if (arguments.length < 3) throw new Error("jsonSort requires 3 arguments");
     var direct = arguments.length > 3 ? arguments[3] : 1; //Default to ascending
 
-    if (jsonObj && jsonObj.constructor === Array) {
+    if (jsonArray && jsonArray.constructor === Array) {
       var propPath = (prop.constructor === Array) ? prop : prop.split(".");
 
       //console.log('propPath', propPath);
 
-      jsonObj.sort(function(a, b) {
+      jsonArray.sort(function(a, b) {
         for (var p in propPath) {
           if (a[propPath[p]] && b[propPath[p]]) {
             a = a[propPath[p]];
@@ -36,30 +36,29 @@
         return ((a < b) ? -1 * direct : ((a > b) ? 1 * direct : 0));
       });
     }
-    return this.jsonPagination(jsonObj, offset, limit);
+    return this.jsonPagination(jsonArray, offset, limit);
   },
 
-  jsonPagination: function(jsonObj, offset, limit) {
-    var resultArray = [];
-    var length = jsonObj.length;
+  jsonPagination: function(jsonArray, offset, limit) {
 
-    for (var i = offset; i < (offset + limit); i++) {
-      if (jsonObj[i] == undefined) break;
-      resultArray.push(jsonObj[i]);
-    }
-    return resultArray;
+
+    var from = offset * limit;
+    var to = from + limit;
+    //console.log(jsonArray.length, from, to) ;
+    //console.log(jsonArray.slice(from, to ));
+    return jsonArray.slice(from, to);
 
 
   },
 
 
-  jsonSearch: function(jsonObj, prop, value, type) {
-    //console.log(jsonObj, prop, value,type);
+  jsonSearch: function(jsonArray, prop, value, type) {
+    //console.log(jsonArray, prop, value,type);
     //console.log('prop', prop);
 
     var resultArray = [];
     if (type == undefined) type = 'string';
-    jsonObj.forEach(function(item) {
+    jsonArray.forEach(function(item) {
       //console.log(item[prop])
       if (item != undefined && item[prop] != undefined) {
         switch (type) {
